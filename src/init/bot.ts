@@ -1,7 +1,8 @@
 import { Telegraf } from 'telegraf'
+import BotContext from '../types/BotContext'
 import config from './config'
 
-const bot: Telegraf = new Telegraf(config.TELEGRAM_TOKEN)
+const bot: Telegraf<BotContext> = new Telegraf(config.TELEGRAM_TOKEN)
 
 function launchBot() {
   bot.launch({

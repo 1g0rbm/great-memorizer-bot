@@ -9,7 +9,7 @@ interface WordInterface {
   translations: Array<string>
 }
 
-interface WordInstance extends Model<WordInterface> {}
+interface WordInstance extends Model<WordInterface>, WordInterface {}
 
 const Word = sequelize.define<WordInstance>(
   'words',
