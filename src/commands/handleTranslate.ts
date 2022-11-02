@@ -14,12 +14,13 @@ export default function handleTranslate(bot: Telegraf<BotContext>): void {
       ctx.i18n.t('wordTranslation', {
         pos: word.pos,
         transcription: word.transcription,
-        translations: word.translations.map((item, idx) => `${idx + 1})  ${item}`).join('\n')
+        translations: word.translations.map((item) => `• ${item}`).join('\n')
       })
     ))
 
-
-    const reply = translations.length === 0 ? 'Ничо нинашел...' : translations.join('\n\n')
+    const reply = translations.length === 0
+      ? ctx.i18n.t('noResult')
+      : translations.join('\n\n')
 
     ctx.replyWithHTML(reply);
   });
