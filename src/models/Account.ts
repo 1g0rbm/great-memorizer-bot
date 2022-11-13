@@ -1,28 +1,47 @@
 import { DataTypes, Model } from 'sequelize'
 import { sequelize } from '../init'
 
-interface AccountInterface {
+interface AccountAttributes {
   chatId: number,
+  wordlistId: number,
 }
 
-interface AccountInstance extends Model<AccountInterface>, AccountInterface {}
+class Account extends Model<AccountAttributes> implements AccountAttributes
+{
+  chatId!: number;
+  wordlistId!: number;
 
-const Account = sequelize.define<AccountInstance>(
-  'account',
+  static associate(models: any) {
+    Account.hasMany(models.WordList, { foreignKey: 'account_id'})
+  }
+}
+
+Account.init(
   {
     chatId: {
+      field: 'chat_id',
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
       unique: true,
       autoIncrement: false,
     },
+    wordlistId: {
+      field: 'wordlist_id',
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'WordList',
+        key: 'wordlist_id',
+      }
+    }
   },
   {
+    sequelize,
+    tableName: 'accounts',
+    modelName: 'Account',
     timestamps: false
   }
 )
-
-export { AccountInstance }
 
 export default Account

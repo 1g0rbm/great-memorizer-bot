@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import { sequelize } from '../init'
 
-interface WordInterface {
+interface WordAttributes {
   id: number,
   source: string,
   pos: string,
@@ -9,10 +9,16 @@ interface WordInterface {
   translations: Array<string>
 }
 
-interface WordInstance extends Model<WordInterface>, WordInterface {}
+class Word extends Model<WordAttributes> implements WordAttributes
+{
+  id!: number;
+  source!: string;
+  pos!: string;
+  transcription!: string;
+  translations!: Array<string>;
+}
 
-const Word = sequelize.define<WordInstance>(
-  'words',
+Word.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -43,10 +49,11 @@ const Word = sequelize.define<WordInstance>(
     }
   },
   {
+    sequelize,
+    tableName: 'words',
+    modelName: 'Word',
     timestamps: false
   }
 )
-
-export { WordInstance }
 
 export default Word
