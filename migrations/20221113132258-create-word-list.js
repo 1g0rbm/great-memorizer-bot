@@ -45,8 +45,8 @@ module.exports = {
       type: 'foreign key',
       name: 'accounts_ref_wordlist',
       references: { table: 'wordlists', field: 'id' },
-      onDelete: 'set null',
-      onUpdate: 'restrict',
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
     })
   },
 
@@ -54,8 +54,8 @@ module.exports = {
     return Promise.all([
       queryInterface.removeConstraint('accounts', 'accounts_ref_wordlist'),
       queryInterface.removeConstraint('wordlists', 'wordlists_ref_accounts'),
-      queryInterface.dropTable('wordlists'),
       queryInterface.removeColumn('accounts', 'wordlist_id'),
+      queryInterface.dropTable('wordlists'),
     ])
   }
 }

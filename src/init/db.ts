@@ -1,6 +1,6 @@
-import { Sequelize } from 'sequelize'
+import { resolve } from 'path'
+import { Sequelize } from 'sequelize-typescript'
 import config from './config'
-
 const sequelize = new Sequelize(
   config.DB_NAME,
   config.DB_USER,
@@ -11,5 +11,7 @@ const sequelize = new Sequelize(
     dialect: 'postgres'
   }
 )
+
+sequelize.addModels([resolve(__dirname, '../models')])
 
 export { Sequelize, sequelize }

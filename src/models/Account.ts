@@ -1,47 +1,39 @@
-import { DataTypes, Model } from 'sequelize'
-import { sequelize } from '../init'
+import { Table, Column, Model, DataType, AutoIncrement, AllowNull, PrimaryKey, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript'
+import WordList from './WordList';
 
 interface AccountAttributes {
   chatId: number,
   wordlistId: number,
 }
 
+@Table({
+  tableName: 'accounts',
+  modelName: 'Account',
+  timestamps: false
+})
 class Account extends Model<AccountAttributes> implements AccountAttributes
 {
+  @PrimaryKey
+  @AllowNull(false)
+  @AutoIncrement
+  @Column({
+    type: DataType.INTEGER,
+    field: 'chat_id',
+    unique: true,
+  })
   chatId!: number;
+
+  @ForeignKey(() => WordList)
+  @AllowNull(true)
+  @Column({
+    type: DataType.INTEGER,
+    field: 'wordlist_id',
+    unique: false,
+  })
   wordlistId!: number;
 
-  static associate(models: any) {
-    Account.hasMany(models.WordList, { foreignKey: 'account_id'})
-  }
+  @HasMany(() => WordList)
+  wordlists: WordList[]
 }
-
-Account.init(
-  {
-    chatId: {
-      field: 'chat_id',
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      allowNull: false,
-      unique: true,
-      autoIncrement: false,
-    },
-    wordlistId: {
-      field: 'wordlist_id',
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'WordList',
-        key: 'wordlist_id',
-      }
-    }
-  },
-  {
-    sequelize,
-    tableName: 'accounts',
-    modelName: 'Account',
-    timestamps: false
-  }
-)
 
 export default Account

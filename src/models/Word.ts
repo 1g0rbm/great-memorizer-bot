@@ -1,5 +1,6 @@
-import { DataTypes, Model } from 'sequelize'
-import { sequelize } from '../init'
+import {
+  Table, Column, Model, DataType, AutoIncrement, AllowNull, PrimaryKey, ForeignKey, BelongsTo
+} from 'sequelize-typescript'
 
 interface WordAttributes {
   id: number,
@@ -9,51 +10,50 @@ interface WordAttributes {
   translations: Array<string>
 }
 
+@Table({
+  tableName: 'words',
+  modelName: 'Word',
+  timestamps: false
+})
 class Word extends Model<WordAttributes> implements WordAttributes
 {
+  @PrimaryKey
+  @AutoIncrement
+  @AllowNull(false)
+  @Column({
+    type: DataType.INTEGER,
+    field: 'id',
+    unique: true,
+  })
   id!: number;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: false,
+  })
   source!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: false,
+  })
   pos!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: false,
+  })
   transcription!: string;
+
+  @Column({
+    type: DataType.JSONB,
+    allowNull: false,
+    unique: false,
+  })
   translations!: Array<string>;
 }
-
-Word.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      allowNull: false,
-      unique: true,
-      autoIncrement: true,
-    },
-    source: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: false,
-    },
-    pos: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: false,
-    },
-    transcription: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: false,
-    },
-    translations: {
-      type: DataTypes.JSONB,
-      allowNull: false,
-      unique: false,
-    }
-  },
-  {
-    sequelize,
-    tableName: 'words',
-    modelName: 'Word',
-    timestamps: false
-  }
-)
 
 export default Word

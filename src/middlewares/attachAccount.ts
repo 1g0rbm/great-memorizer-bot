@@ -11,12 +11,14 @@ async function attachAccount(bot: Telegraf<BotContext>) {
     }
 
     const t = await sequelize.transaction()
+    let account: Account;
 
     try {
-      let account = await Account.findOne({
+      account = await Account.findOne({
         where: {
           chatId: ctx.chat.id,
         },
+        include: [WordList],
         transaction: t,
        })
 
@@ -48,6 +50,9 @@ async function attachAccount(bot: Telegraf<BotContext>) {
       }
 
       t.commit()
+
+      ctx.account = account
+
     } catch(e) {
       console.error(e)
       t.rollback()
