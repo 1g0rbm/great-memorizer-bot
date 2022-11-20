@@ -12,7 +12,7 @@ export default function handleTranslate(bot: Telegraf<BotContext>): void {
     })
 
     const translations = words.map((word: Word) => (
-      ctx.i18n.t('wordTranslation', {
+      ctx.i18n.t('message.wordTranslation', {
         pos: word.pos,
         transcription: word.transcription,
         translations: word.translations.map((item) => `• ${item}`).join('\n')
@@ -20,19 +20,22 @@ export default function handleTranslate(bot: Telegraf<BotContext>): void {
     ))
 
     const reply = translations.length === 0
-      ? ctx.i18n.t('noResult')
-      : translations.join('\n\n')
-
-    ctx.replyWithHTML(
-      reply,
-      {
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: 'Add button to your remember list', callback_data: `save.${ctx.message.text}`}],
-          ]
+      ? { text: ctx.i18n.t('message.noResult'), markup: {} }
+      : {
+        text: translations.join('\n\n'),
+        markup: {
+          reply_markup: {
+            inline_keyboard: [
+              [{
+                text: ctx.i18n.t('button.addWordIntoList'),
+                callback_data: `save.${ctx.message.text}`
+              }],
+            ]
+          }
         }
       }
-    );
+
+    ctx.replyWithHTML(reply.text, reply.markup)
   })
 
   bot.action(/save\./, async (ctx) => {
@@ -46,5 +49,6 @@ export default function handleTranslate(bot: Telegraf<BotContext>): void {
     words.forEach((word) => wordlist.$add('word', word))
 
     ctx.answerCbQuery()
+    ctx.replyWithHTML(ctx.i18n.t('message.wordAddedIntoList'))
   })
 }
