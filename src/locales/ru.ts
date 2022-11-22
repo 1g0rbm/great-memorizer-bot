@@ -11,7 +11,7 @@ const ru = {
 3) Для просмотра твоего списка слов нажми кнопку <b>"Посмотреть список слов"</b>
 
 Успехов!`,
-      wordTranslation: `<b>{{ transcription }}</b> <b>{{ pos }}</b>
+      wordTranslation: `<b>{{ source }} {{ transcription }} {{ pos }}</b>
 {{ translations }}`,
       noResult: `Не нашел перевода :(
 Возможно, в слове опечатка. Попробуй исправить, или предложи другое слово.`,

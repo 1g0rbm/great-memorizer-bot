@@ -2,7 +2,7 @@ import { Telegraf } from 'telegraf'
 import Word from '../models/Word'
 import BotContext from '../types/BotContext'
 import findWordListByAccount from '../utils/db/getWordListByAccount'
-import { wordsFullSerialize } from '../utils/translation/serializeWord'
+import { wordFullSerialize } from '../utils/translation/serializeWord'
 
 export default function handleTranslate(bot: Telegraf<BotContext>): void {
   bot.on('text', async (ctx) => {
@@ -15,7 +15,7 @@ export default function handleTranslate(bot: Telegraf<BotContext>): void {
     const reply = words.length === 0
       ? { text: ctx.i18n.t('message.noResult'), markup: {} }
       : {
-        text: wordsFullSerialize(words),
+        text: words.map(wordFullSerialize).join('\n\n'),
         markup: {
           reply_markup: {
             inline_keyboard: [
