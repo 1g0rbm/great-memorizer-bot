@@ -8,6 +8,7 @@ dotenv.config({ path: resolve(cwd(), '.env') })
 module.exports = cleanEnv(process.env, {
   TELEGRAM_TOKEN: str(),
   TELEGRAM_WEBHOOK_URL: str(),
+  TELEGRAM_WEBAPP_URL: str(),
   TELEGRAM_PORT: num(),
   DB_NAME: str(),
   DB_USER: str(),

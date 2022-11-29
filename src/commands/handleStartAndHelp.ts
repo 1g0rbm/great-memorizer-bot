@@ -1,5 +1,6 @@
 import BotContext from '../types/BotContext'
 import { Telegraf } from 'telegraf'
+import config from '../init/config'
 
 export default function handleStartAndHelp(bot: Telegraf<BotContext>): void {
   bot.start((ctx) => {
@@ -20,7 +21,7 @@ export default function handleStartAndHelp(bot: Telegraf<BotContext>): void {
       {
         reply_markup: {
           keyboard: [
-            [{ text: ctx.i18n.t('button.showWordList') }],
+            [{ text: ctx.i18n.t('button.showWordList'), web_app: { url: config.TELEGRAM_WEBAPP_URL,  } }],
           ],
           resize_keyboard: true,
         },
@@ -46,7 +47,7 @@ export default function handleStartAndHelp(bot: Telegraf<BotContext>): void {
       {
         reply_markup: {
           keyboard: [
-            [{ text: ctx.i18n.t('button.showWordList') }],
+            [{ text: ctx.i18n.t('button.showWordList'), web_app: { url: config.TELEGRAM_WEBAPP_URL,  } }],
           ],
           resize_keyboard: true,
         },
