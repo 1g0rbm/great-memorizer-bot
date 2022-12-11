@@ -5,7 +5,7 @@ import configurei18n from './middlewares/configurei18n'
 import attachAccount from './middlewares/attachAccount'
 import handleStartAndHelp from './commands/handleStartAndHelp'
 
-async function app() {
+async function runBot() {
 
   await configurei18n(bot)
   await attachAccount(bot)
@@ -17,7 +17,7 @@ async function app() {
   launchBot()
 }
 
-app()
+runBot()
   .then(() => {
     console.log('Bot is running...')
   })

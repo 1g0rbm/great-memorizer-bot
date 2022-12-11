@@ -14,4 +14,6 @@ module.exports = cleanEnv(process.env, {
   DB_USER: str(),
   DB_PASSWORD: str(),
   DB_HOST: str(),
+  SERVER_PORT: num(),
+  SERVER_HOST: str(),
 })
